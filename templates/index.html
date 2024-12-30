@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS CDN -->
+</head>
+<body class="bg-gray-100 p-5">
+
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
+        <h1 class="text-3xl font-semibold text-center text-gray-700">Sentiment Analysis</h1>
+
+        <form action="/predict" method="POST" class="mt-6 space-y-4">
+            <div>
+                <label for="text" class="block text-lg font-medium text-gray-600">Enter Text:</label>
+                <textarea name="text" id="text" rows="4" class="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+            <button type="submit" class="w-full sm:w-auto bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600">Analyze</button>
+        </form>
+
+        {% if prediction %}
+        <div class="mt-6">
+            <h2 class="text-2xl font-semibold text-gray-800">Result:</h2>
+            <p class="text-lg mt-2"><strong>Text:</strong> {{ text }}</p>
+            <p class="text-lg mt-2"><strong>Sentiment:</strong> <span class="font-bold text-blue-500">{{ prediction }}</span></p>
+        </div>
+        {% endif %}
+
+        {% if trending_topics %}
+        <div class="mt-6">
+            <h2 class="text-2xl font-semibold text-gray-800">Trending Topics:</h2>
+            <ul class="list-disc pl-5">
+                {% for word, count in trending_topics %}
+                <li class="text-lg text-gray-600"><strong>{{ word }}</strong>: {{ count }} times</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if sentiment_graph %}
+        <div class="mt-6">
+            <h2 class="text-2xl font-semibold text-gray-800">Sentiment Distribution:</h2>
+            <!-- Display the generated graph -->
+            <img src="data:image/png;base64,{{ sentiment_graph }}" alt="Sentiment Distribution" class="w-full mt-4" />
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
+
